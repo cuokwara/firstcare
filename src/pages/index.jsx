@@ -54,13 +54,24 @@ function _getCurrentPage(url) {
     if (url.endsWith('/')) {
         url = url.slice(0, -1);
     }
+    
+    // Handle root path
+    if (url === '' || url === '/') {
+        return 'Home';
+    }
+    
     let urlLastPart = url.split('/').pop();
     if (urlLastPart.includes('?')) {
         urlLastPart = urlLastPart.split('?')[0];
     }
 
-    const pageName = Object.keys(PAGES).find(page => page.toLowerCase() === urlLastPart.toLowerCase());
-    return pageName || Object.keys(PAGES)[0];
+    // Convert kebab-case to PascalCase for page matching
+    const convertedName = urlLastPart.split('-').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    ).join('');
+    
+    const pageName = Object.keys(PAGES).find(page => page === convertedName);
+    return pageName || 'Home';
 }
 
 // Create a wrapper component that uses useLocation inside the Router context
@@ -71,9 +82,7 @@ function PagesContent() {
     return (
         <Layout currentPageName={currentPage}>
             <Routes>            
-                
-                    <Route path="/" element={<Services />} />
-                
+                <Route path="/" element={<Home />} />
                 
                 <Route path="/Services" element={<Services />} />
                 

@@ -38,7 +38,21 @@ export default function Layout({ children }) {
   const [activeDropdown, setActiveDropdown] = React.useState(null);
 
   React.useEffect(() => {
-    document.title = "First Care Medical Clinic | Your Primary Care Partner in NC & SC";
+    const pageTitles = {
+      'Home': 'First Care Medical Clinic | Your Primary Care Partner in NC & SC',
+      'Services': 'Medical Services | First Care Medical Clinic',
+      'About': 'About Us | First Care Medical Clinic',
+      'Contact': 'Contact Us | First Care Medical Clinic',
+      'Locations': 'Our Locations | First Care Medical Clinic',
+      'Insurance': 'Accepted Insurance | First Care Medical Clinic',
+      'FAQs': 'Frequently Asked Questions | First Care Medical Clinic',
+      'YourCareTeam': 'Your Care Team | First Care Medical Clinic'
+    };
+    
+    const currentPageName = location.pathname === '/' ? 'Home' : 
+      location.pathname.split('/')[1]?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    
+    document.title = pageTitles[currentPageName] || "First Care Medical Clinic | Your Primary Care Partner in NC & SC";
   }, []);
 
   const handleDropdownToggle = (dropdown) => {
@@ -84,7 +98,7 @@ export default function Layout({ children }) {
             
             {/* Logo */}
             <div className="flex-1 md:flex-initial">
-              <Link to={createPageUrl("Home")}>
+              <Link to="/">
                 <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c42f9d2467a3929932fc81/0ab239ebf_FCMCLogo1.png" alt="First Care Medical Clinic Logo" className="h-12" />
               </Link>
             </div>
@@ -224,7 +238,7 @@ export default function Layout({ children }) {
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-0 left-0 w-full h-screen bg-white z-50 p-4 overflow-y-auto">
             <div className="flex justify-between items-center mb-8">
-               <Link to={createPageUrl("Home")}>
+               <Link to="/">
                  <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c42f9d2467a3929932fc81/0ab239ebf_FCMCLogo1.png" alt="First Care Medical Clinic Logo" className="h-12" />
                </Link>
               <button onClick={() => setMobileMenuOpen(false)}>
@@ -232,7 +246,7 @@ export default function Layout({ children }) {
               </button>
             </div>
             <nav className="flex flex-col gap-4 text-lg font-medium">
-              <Link to={createPageUrl("Home")} className="py-2" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+              <Link to="/" className="py-2" onClick={() => setMobileMenuOpen(false)}>Home</Link>
               <Link to={createPageUrl("Locations")} className="py-2" onClick={() => setMobileMenuOpen(false)}>Find a Location</Link>
               <Link to={createPageUrl("Services")} className="py-2" onClick={() => setMobileMenuOpen(false)}>Services</Link>
               <Link to={createPageUrl("About")} className="py-2" onClick={() => setMobileMenuOpen(false)}>Who We Are</Link>
@@ -271,7 +285,9 @@ export default function Layout({ children }) {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
               <div className="mb-4">
-                <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c42f9d2467a3929932fc81/0ab239ebf_FCMCLogo1.png" alt="First Care Medical Clinic Logo" className="h-12" />
+                <Link to="/">
+                  <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c42f9d2467a3929932fc81/0ab239ebf_FCMCLogo1.png" alt="First Care Medical Clinic Logo" className="h-12" />
+                </Link>
               </div>
               <p className="text-gray-800 text-sm">
                 Providing comprehensive primary care services with compassion and excellence.
